@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Book {
@@ -18,9 +19,11 @@ public class Book {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	private String titile;
+	private String title;
 	private String isbn;
-	private String publisher;
+	
+	@OneToOne
+	private Publisher publisher;
 	
 	@ManyToMany
 	@JoinTable(name = "author_book", joinColumns = @JoinColumn(name="book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
@@ -28,25 +31,25 @@ public class Book {
 	
 	public Book() {}
 	
-	public Book(String title, String isbn, String publisher) {
-		this.setTitile(title);
+	public Book(String title, String isbn, Publisher publisher) {
+		this.setTitle(title);
 		this.setIsbn(isbn);
 		this.setPublisher(publisher);
 	}
 	
-	public Book(String title, String isbn, String publisher, Set<Author> authors) {
-		this.setTitile(title);
+	public Book(String title, String isbn, Publisher publisher, Set<Author> authors) {
+		this.setTitle(title);
 		this.setIsbn(isbn);
 		this.setPublisher(publisher);
 		this.setAuthors(authors);
 	}
 
-	public String getTitile() {
-		return titile;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setTitile(String titile) {
-		this.titile = titile;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getIsbn() {
@@ -65,20 +68,20 @@ public class Book {
 		this.authors = authors;
 	}
 
-	public String getPublisher() {
-		return publisher;
-	}
-
-	public void setPublisher(String publisher) {
-		this.publisher = publisher;
-	}
-
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Publisher getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(Publisher publisher) {
+		this.publisher = publisher;
 	}
 
 	@Override
@@ -108,7 +111,7 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", titile=" + titile + ", isbn=" + isbn + ", publisher=" + publisher + ", authors="
+		return "Book [id=" + id + ", titile=" + title + ", isbn=" + isbn + ", publisher=" + publisher + ", authors="
 				+ authors + "]";
 	}
 	
